@@ -333,7 +333,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: awx
-  namespace: awx
+  namespace: {{ os_k8s_namespace }}
   annotations:
     kubernetes.io/ingress.class: "alb"
     alb.ingress.kubernetes.io/actions.ssl-redirect: {{ os_k8s_ssl_redirect }}
