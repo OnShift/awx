@@ -18,11 +18,11 @@ localhost ansible_connection=local ansible_python_interpreter="/usr/bin/env pyth
 # openshift_pg_emptydir=True
 
 # Kubernetes Install
-kubenetes_context="{{ os_k8s_context }}"
-kubenetes_namespace="{{ os_k8s_namespace }}"
-kubenetes_task_image="{{ os_k8s_image }}"
-kubenetes_web_image="{{ os_k8s_web_image }}"
-tiller_namespace="{{ os_k8s_tiller_namespace }}"
+kubernetes_context={{ os_k8s_context }}
+kubernetes_namespace={{ os_k8s_namespace }}
+kubernetes_task_image={{ os_k8s_image }}
+kubernetes_web_image={{ os_k8s_web_image }}
+tiller_namespace={{ os_k8s_tiller_namespace }}
 
 # Kubernetes and Openshift Install Resource Requests
 # This is the request value for a pod's "task" container, which is the container
@@ -35,10 +35,10 @@ tiller_namespace="{{ os_k8s_tiller_namespace }}"
 # task_mem_request=2
 
 # Common Docker parameters
-#awx_task_hostname=awx
-#awx_web_hostname=awxweb
+#awx_task_hostname="{{ os_k8s_awx_task_hostname }}"
+#awx_web_hostname="{{ os_k8s_awx_web_hostname }}"
 #postgres_data_dir=/tmp/pgdocker
-host_port="{{ os_k8s_host_port }}"
+host_port={{ os_k8s_host_port }}
 
 # Docker Compose Install
 # use_docker_compose=false
@@ -53,10 +53,10 @@ host_port="{{ os_k8s_host_port }}"
 # Required for Docker Compose Install if building the image on your own
 # Optional for Docker Compose Install if using Dockerhub or another prebuilt registry
 # Define if you want the image pushed to a registry. The container definition will also use these images
-docker_registry="{{ os_k8s_docker_registry }}"
-docker_registry_repository="{{ os_k8s_docker_repository }}"
-docker_registry_username="{{ os_k8s_docker_username }}"
-docker_registry_password="{{ os_k8s_docker_password }}"
+docker_registry={{ os_k8s_docker_registry }}
+docker_registry_repository={{ os_k8s_docker_repository }}
+docker_registry_username={{ os_k8s_docker_username }}
+docker_registry_password={{ os_k8s_docker_password }}
 
 
 # Docker_image will not attempt to push to remote if the image already exists locally
@@ -65,15 +65,15 @@ docker_remove_local_images=True
 
 # Set pg_hostname if you have an external postgres server, otherwise
 # a new postgres service will be created
-pg_hostname="{{ os_k8s_pg_hostname }}"
-pg_username="{{ os_k8s_pg_username }}"
-pg_password="{{ os_k8s_pg_password }}"
-pg_database="{{ os_k8s_pg_database }}"
-pg_port="{{ os_k8s_pg_port }}"
+pg_hostname={{ os_k8s_pg_hostname }}
+pg_username={{ os_k8s_pg_username }}
+pg_password={{ os_k8s_pg_password }}
+pg_database={{ os_k8s_pg_database }}
+pg_port=5432
 
 # RabbitMQ Configuration
-rabbitmq_password="{{ os_k8s_rmq_password }}"
-rabbitmq_erlang_cookie="{{ os_k8s_rmq_cookie }}"
+rabbitmq_password={{ os_k8s_rmq_password }}
+rabbitmq_erlang_cookie={{ os_k8s_rmq_cookie }}
 
 # Use a local distribution build container image for building the AWX package
 # This is helpful if you don't want to bother installing the build-time dependencies as
@@ -88,8 +88,8 @@ rabbitmq_erlang_cookie="{{ os_k8s_rmq_cookie }}"
 
 # This will create or update a default admin (superuser) account in AWX, if not provided
 # then these default values are used
-admin_user="{{ os_k8s_admin_username }}"
-admin_password="{{ os_k8s_admin_password }}"
+admin_user={{ os_k8s_admin_username }}
+admin_password={{ os_k8s_admin_password }}
 
 # Whether or not to create preload data for demonstration purposes
 create_preload_data=False
@@ -97,7 +97,7 @@ create_preload_data=False
 # AWX Secret key
 # It's *very* important that this stay the same between upgrades or you will lose the ability to decrypt
 # your credentials
-secret_key="{{ os_k8s_awx_secret }}"
+secret_key={{ os_k8s_awx_secret }}
 
 # Build AWX with official logos
 # Requires cloning awx-logos repo into the project root.
