@@ -134,6 +134,8 @@ spec:
     spec:
       serviceAccountName: awx
       terminationGracePeriodSeconds: 10
+      imagePullSecrets:
+        - name: artifactory-registry-secret
       containers:
         - name: {{ kubernetes_deployment_name }}-web
           image: "{{ kubernetes_web_image }}:{{ kubernetes_web_version }}"
@@ -325,34 +327,3 @@ spec:
       targetPort: 15672
   selector:
     name: {{ kubernetes_deployment_name }}-web-deploy
-{% if kubernetes_context is defined %}
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: {{ kubernetes_deployment_name }}-web-svc
-  namespace: {{ kubernetes_namespace }}
-spec:
-  backend:
-    serviceName: {{ kubernetes_deployment_name }}-web-svc
-    servicePort: 80
-{% endif %}
-{% if openshift_host is defined %}
----
-apiVersion: v1
-kind: Route
-metadata:
-  name: {{ kubernetes_deployment_name }}-web-svc
-  namespace: {{ kubernetes_namespace }}
-spec:
-  port:
-    targetPort: http
-  tls:
-    insecureEdgeTerminationPolicy: Redirect
-    termination: edge
-  to:
-    kind: Service
-    name: {{ kubernetes_deployment_name }}-web-svc
-    weight: 100
-  wildcardPolicy: None
-{% endif %}

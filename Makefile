@@ -153,6 +153,15 @@ requirements_ansible_dev:
 		$(VENV_BASE)/ansible/bin/pip install pytest mock; \
 	fi
 
+
+requirements_onshift:
+	if [ ! -d "$(VENV_BASE)/onshift" ]; then \
+		virtualenv --system-site-packages $(VENV_BASE)/onshift && \
+		$(VENV_BASE)/onshift/bin/pip install $(PIP_OPTIONS) python-memcached psutil && \
+		$(VENV_BASE)/onshift/bin/pip install $(PIP_OPTIONS) openshift \
+	fi;
+
+
 requirements_isolated:
 	if [ ! -d "$(VENV_BASE)/awx" ]; then \
 		virtualenv --system-site-packages $(VENV_BASE)/awx && \
