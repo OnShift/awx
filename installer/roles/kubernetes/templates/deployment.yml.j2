@@ -134,6 +134,8 @@ spec:
     spec:
       serviceAccountName: awx
       terminationGracePeriodSeconds: 10
+      imagePullSecrets:
+        - name: artifactory-registry-secret
       containers:
         - name: {{ kubernetes_deployment_name }}-web
           image: "{{ kubernetes_web_image }}:{{ kubernetes_web_version }}"
@@ -305,7 +307,7 @@ spec:
   type: "NodePort"
   ports:
     - name: http
-      port: 80
+      port: {{ os_k8s_host_port }}
       targetPort: 8052
   selector:
     name: {{ kubernetes_deployment_name }}-web-deploy
@@ -325,34 +327,30 @@ spec:
       targetPort: 15672
   selector:
     name: {{ kubernetes_deployment_name }}-web-deploy
-{% if kubernetes_context is defined %}
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ kubernetes_deployment_name }}-web-svc
-  namespace: {{ kubernetes_namespace }}
+  name: awx
+  namespace: {{ os_k8s_namespace }}
+  annotations:
+    kubernetes.io/ingress.class: "alb"
+    alb.ingress.kubernetes.io/actions.ssl-redirect: {{ os_k8s_ssl_redirect }}
+    alb.ingress.kubernetesi.io/certificate-arn: "{{ os_k8s_cert_arn }}"
+    alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true
+    alb.ingress.kubernetes.io/listen-ports: {{ os_k8s_listen_ports }}
+    alb.ingress.kubernetes.io/scheme: "{{ os_k8s_alb_scheme }}"
+    alb.ingress.kubernetes.io/tags: "{{ os_k8s_alb_tags }}"
 spec:
-  backend:
-    serviceName: {{ kubernetes_deployment_name }}-web-svc
-    servicePort: 80
-{% endif %}
-{% if openshift_host is defined %}
----
-apiVersion: v1
-kind: Route
-metadata:
-  name: {{ kubernetes_deployment_name }}-web-svc
-  namespace: {{ kubernetes_namespace }}
-spec:
-  port:
-    targetPort: http
-  tls:
-    insecureEdgeTerminationPolicy: Redirect
-    termination: edge
-  to:
-    kind: Service
-    name: {{ kubernetes_deployment_name }}-web-svc
-    weight: 100
-  wildcardPolicy: None
-{% endif %}
+  rules:
+  - host: {{ os_k8s_alb_host }}
+    http:
+      paths:
+       - path: /*
+         backend:
+           serviceName: ssl-redirect
+           servicePort: use-annotation
+       - path: /*
+         backend:
+           serviceName: awx-web-svc
+           servicePort: {{ os_k8s_host_port }}

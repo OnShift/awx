@@ -1,8 +1,9 @@
 ---
+
 dockerhub_version: "{{ lookup('file', playbook_dir + '/../VERSION') }}"
 create_preload_data: True
 
-admin_user: 'admin'
+admin_user: ''
 admin_email: 'root@localhost'
 admin_password: ''
 
@@ -13,10 +14,10 @@ rabbitmq_erlang_cookie: ''
 kubernetes_base_path: "{{ local_base_config_path|default('/tmp') }}/{{ kubernetes_deployment_name }}-config"
 
 kubernetes_task_version: "{{ tower_package_version | default(dockerhub_version) }}"
-kubernetes_task_image: "{{ tower_package_name | default(dockerhub_base+'/awx_task') }}"
+kubernetes_task_image: "{{ os_k8s_task_image }}"
 
 kubernetes_web_version: "{{ tower_package_version | default(dockerhub_version) }}"
-kubernetes_web_image: "{{ tower_package_name | default(dockerhub_base+'/awx_web') }}"
+kubernetes_web_image: "{{ os_k8s_web_image }}"
 
 web_mem_request: 1
 web_cpu_request: 500

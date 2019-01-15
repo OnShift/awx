@@ -5,6 +5,8 @@ metadata:
   name: ansible-tower-management
   namespace: {{ kubernetes_namespace }}
 spec:
+  imagePullSecrets:
+    - name: artifactory-registry-secret
   containers:
     - name: ansible-tower-management
       image: "{{ kubernetes_task_image }}:{{ kubernetes_task_version }}"
