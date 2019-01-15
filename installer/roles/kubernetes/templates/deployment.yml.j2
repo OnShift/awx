@@ -307,7 +307,7 @@ spec:
   type: "NodePort"
   ports:
     - name: http
-      port: 80
+      port: {{ os_k8s_host_port }}
       targetPort: 8052
   selector:
     name: {{ kubernetes_deployment_name }}-web-deploy
@@ -327,3 +327,31 @@ spec:
       targetPort: 15672
   selector:
     name: {{ kubernetes_deployment_name }}-web-deploy
+---
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: awx
+  namespace: awx
+  annotations:
+    kubernetes.io/ingress.class: "alb"
+    alb.ingress.kubernetes.io/actions.ssl-redirect: {{ os_k8s_ssl_redirect }}
+    alb.ingress.kubernetesi.io/certificate-arn: "{{ os_k8s_cert_arn }}"
+    alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true
+    alb.ingress.kubernetes.io/listen-ports: {{ os_k8s_listen_ports }}
+    alb.ingress.kubernetes.io/scheme: "{{ os_k8s_alb_scheme }}"
+    alb.ingress.kubernetes.io/tags: "{{ os_k8s_alb_tags }}"
+spec:
+  rules:
+  - host: {{ os_k8s_alb_host }}
+    http:
+      paths:
+       - path: /*
+         backend:
+           serviceName: ssl-redirect
+           servicePort: use-annotation
+       - path: /*
+         backend:
+           serviceName: awx-web-svc
+           servicePort: {{ os_k8s_host_port }}
