@@ -17,7 +17,7 @@ RUN yum -y update && yum -y install openssh-server ansible mg vim tmux \
   zeromq-devel python-pip xmlsec1-devel swig krb5-devel xmlsec1-openssl xmlsec1 \
   xmlsec1-openssl-devel libtool-ltdl-devel rabbitmq-server bubblewrap \
   zanata-python-client gettext gcc-c++ libcurl-devel python-pycurl bzip2 \
-  python-crypto rsync
+  python-crypto rsync jq
 
 RUN pip install virtualenv
 RUN /usr/bin/ssh-keygen -q -t rsa -N "" -f /root/.ssh/id_rsa
