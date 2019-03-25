@@ -160,6 +160,7 @@ requirements_onshift:
 		$(VENV_BASE)/onshift/bin/pip install $(PIP_OPTIONS) python-memcached psutil && \
 		$(VENV_BASE)/onshift/bin/pip install $(PIP_OPTIONS) openshift && \
 		$(VENV_BASE)/onshift/bin/pip install $(PIP_OPTIONS) aws; \
+
 	fi;
 
 
