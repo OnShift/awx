@@ -158,7 +158,7 @@ requirements_onshift:
 	if [ ! -d "$(VENV_BASE)/onshift" ]; then \
 		virtualenv --system-site-packages $(VENV_BASE)/onshift && \
 		$(VENV_BASE)/onshift/bin/pip install $(PIP_OPTIONS) python-memcached psutil && \
-		$(VENV_BASE)/onshift/bin/pip install $(PIP_OPTIONS) openshift \
+		$(VENV_BASE)/onshift/bin/pip install $(PIP_OPTIONS) openshift; \
 	fi;
 
 
