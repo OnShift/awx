@@ -20,7 +20,7 @@ localhost ansible_connection=local ansible_python_interpreter="/usr/bin/env pyth
 # Kubernetes Install
 kubernetes_context={{ os_k8s_context }}
 kubernetes_namespace={{ os_k8s_namespace }}
-kubernetes_task_image={{ os_k8s_image }}
+kubernetes_task_image={{ os_k8s_task_image }}
 kubernetes_web_image={{ os_k8s_web_image }}
 tiller_namespace={{ os_k8s_tiller_namespace }}
 
