@@ -157,11 +157,11 @@ requirements_ansible_dev:
 requirements_onshift:
 	if [ ! -d "$(VENV_BASE)/onshift" ]; then \
 		virtualenv --system-site-packages $(VENV_BASE)/onshift && \
+		$(VENV_BASE)/onshift/bin/pip install $(PIP_OPTIONS) pip==9.0.1 && \
 		$(VENV_BASE)/onshift/bin/pip install $(PIP_OPTIONS) python-memcached psutil && \
-		$(VENV_BASE)/onshift/bin/pip install $(PIP_OPTIONS) openshift && \
-		$(VENV_BASE)/onshift/bin/pip install $(PIP_OPTIONS) aws; \
-
+		$(VENV_BASE)/onshift/bin/pip install $(PIP_OPTIONS) openshift; \
 	fi;
+	$(VENV_BASE)/onshift/bin/pip install -r requirements/requirements_onshift.txt
 
 
 requirements_isolated:
