@@ -5,6 +5,7 @@
 #    pip-compile --output-file requirements/requirements.txt requirements/requirements_onshift.in
 #
 amqp==2.3.2               # via kombu
+awscli==1.16.131
 appdirs==1.4.2
 argparse==1.4.0           # via uwsgitop
 asgi-amqp==1.1.3
