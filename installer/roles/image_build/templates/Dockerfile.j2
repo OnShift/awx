@@ -62,8 +62,13 @@ RUN chmod -R 777 /var/log/nginx && chmod -R 777 /var/lib/nginx
 VOLUME /var/lib/nginx
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
+RUN echo "strategy_plugins = /var/lib/awx/.local/lib/python2.7/site-packages/ansible_mitogen/plugins/strategy/" /etc/ansible/ansible.cfg && \
+    echo "strategy = mitogen_linear" /etc/ansible/ansible.cfg
+
 USER 1000
 EXPOSE 8052
 WORKDIR /var/lib/awx
+RUN pip install --user mitogen
+
 ENTRYPOINT ["/tini", "--"]
 CMD /usr/bin/launch_awx.sh
